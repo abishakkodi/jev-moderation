@@ -1,0 +1,35 @@
+name: Live Jev evaluation (billable)
+on:
+  workflow_dispatch:
+    inputs:
+      split:
+        type: choice
+        description: Use tuning while iterating; held-out only after freezing the candidate
+        options: [tuning, held-out]
+        default: tuning
+        required: true
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install ./packages/python
+      - name: Evaluate the checked-out policy
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          TYPESAFE_LOG_LEVEL: 'off'
+          EVAL_SPLIT: ${{ inputs.split }}
+        run: python scripts/live_eval.py --split "$EVAL_SPLIT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-evaluation-${{ inputs.split }}-${{ github.sha }}
+          path: reports/*.json
+          if-no-files-found: ignore
+          retention-days: 14

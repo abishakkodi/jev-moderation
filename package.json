@@ -9,6 +9,7 @@
     "build": "npm run sync && npm run build -w jev-moderation",
     "test": "npm run build && npm test -w jev-moderation",
     "test:parity": ".venv/bin/python scripts/check_parity.py",
-    "test:examples": "vitest run examples/custom-filter.test.ts"
+    "test:examples": "vitest run examples/custom-filter.test.ts",
+    "test:install": "python3 scripts/smoke_install.py --artifacts dist"
   }
 }

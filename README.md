@@ -127,3 +127,11 @@ The model defaults to `jev-1.13.0`. Requests have a conservative **24,000 UTF-8 
 The SDK does not log message bodies. The upstream Python SDK can log bodies if you explicitly enable `TYPESAFE_LOG_LEVEL=debug`; avoid that for private content. Custom TypeSafe clients retain their own logging settings. Data is sent to TypeSafe for inference; no local inference or provider data-retention guarantee is implied.
 
 Official references: [API](https://docs.typesafe.ai/api), [Noul questions](https://docs.typesafe.ai/primitives/noul), [models](https://docs.typesafe.ai/models), [JavaScript client](https://docs.typesafe.ai/sdk/javascript), [Python client](https://docs.typesafe.ai/sdk/python). Integration tested against JS `0.6.0` and Python `0.7.1` using mocked HTTP transports. Live classification accuracy has not been measured.
+
+## Release and live-evaluation tooling
+
+See [the release guide](docs/releasing.md) for registry account setup, OIDC
+publishing, version tags, clean consumer installation checks, and opt-in live
+model evaluations. The tag workflow tests the exact distribution files before
+publishing, then verifies imports from npm and PyPI. The separate manual live
+evaluation workflow requires a `TYPESAFE_API_KEY` repository secret.

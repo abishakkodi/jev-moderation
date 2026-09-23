@@ -1,0 +1,124 @@
+name: Release SDK packages
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    uses: ./.github/workflows/ci.yml
+  build:
+    needs: validate
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: pip install build twine
+      - name: Check release identity
+        id: version
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          version=$(python scripts/check_release.py --tag "$RELEASE_TAG")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - run: npm run build
+      - run: mkdir -p dist && npm pack -w jev-moderation --pack-destination dist
+      - run: python -m build packages/python --outdir dist
+      - run: python -m twine check --strict dist/*.whl dist/*.tar.gz
+      - run: python scripts/smoke_install.py --artifacts dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-distributions
+          path: |
+            dist/*.tgz
+            dist/*.whl
+            dist/*.tar.gz
+          if-no-files-found: error
+          retention-days: 30
+  npm:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+      - run: npm install --global npm@11
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-distributions
+          path: dist
+      - id: status
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: python scripts/registry_status.py npm "$VERSION"
+      - name: Publish tested tarball with OIDC
+        if: steps.status.outputs.publish == 'true'
+        run: npm publish dist/*.tgz --access public --provenance --ignore-scripts
+  pypi:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-distributions
+          path: artifacts
+      - id: status
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: python scripts/registry_status.py pypi "$VERSION" --artifacts artifacts
+      - run: mkdir dist && cp artifacts/*.whl artifacts/*.tar.gz dist/
+      - name: Publish tested Python distributions with OIDC
+        if: steps.status.outputs.publish == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+  verify:
+    needs: [build, npm, pypi]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: python scripts/smoke_install.py --registry-version "$VERSION"
+  github-release:
+    needs: [build, verify]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-distributions
+          path: dist
+      - name: Create early-release download page
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: gh release create "$RELEASE_TAG" dist/* --verify-tag --prerelease --title "$RELEASE_TAG — early release" --notes-file CHANGELOG.md

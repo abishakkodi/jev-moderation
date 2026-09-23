@@ -16,7 +16,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "engines": {
     "node": ">=20.19"
@@ -35,5 +36,25 @@
     "prettier": "^3.9.8",
     "typescript": "^5.9.0",
     "vitest": "^4.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abishakkodi/jev-moderation.git",
+    "directory": "packages/typescript"
+  },
+  "homepage": "https://github.com/abishakkodi/jev-moderation#readme",
+  "bugs": {
+    "url": "https://github.com/abishakkodi/jev-moderation/issues"
+  },
+  "keywords": [
+    "moderation",
+    "jev",
+    "typesafe",
+    "content-moderation",
+    "evaluation"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

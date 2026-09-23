@@ -15,3 +15,14 @@ for source in (root / "shared").glob("*.json"):
         else:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(source.read_bytes())
+
+# License copies are package content, sourced from the repository root.
+license_path = root / "LICENSE"
+if license_path.exists():
+    for package in ["packages/typescript", "packages/python"]:
+        target = root / package / "LICENSE"
+        if "--check" in sys.argv:
+            if not target.exists() or target.read_bytes() != license_path.read_bytes():
+                raise SystemExit(f"License drift: {target}")
+        else:
+            target.write_bytes(license_path.read_bytes())
