@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Jev moderation policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "version",
+    "mode",
+    "filters"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "mode": {
+      "enum": [
+        "extend",
+        "replace"
+      ]
+    },
+    "preset": {
+      "const": "community-v1"
+    },
+    "instructions": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "definition": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "criteria": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "true",
+              "false"
+            ],
+            "properties": {
+              "true": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "false": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          },
+          "review": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "block": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

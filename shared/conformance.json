@@ -1,0 +1,206 @@
+[
+  {
+    "id": "allow",
+    "policy": {
+      "schemaVersion": 1,
+      "version": "test-v1",
+      "mode": "replace",
+      "instructions": "Allow criticism.",
+      "filters": [
+        {
+          "id": "abuse",
+          "definition": "Targeted personal abuse.",
+          "criteria": {
+            "true": "An abusive attack.",
+            "false": "Good-faith disagreement."
+          }
+        },
+        {
+          "id": "spam",
+          "definition": "Unsolicited bulk advertising."
+        }
+      ]
+    },
+    "message": "A message 🌍 café",
+    "history": [
+      {
+        "role": "user",
+        "content": "Earlier context"
+      }
+    ],
+    "raw": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "abuse": {
+          "type": "noul",
+          "noul": 0
+        },
+        "spam": {
+          "type": "noul",
+          "noul": 0.4999
+        }
+      },
+      "usage": {
+        "input_tokens": 50,
+        "output_tokens": 3
+      }
+    },
+    "expectedAction": "allow",
+    "expectedMatchedRuleIds": []
+  },
+  {
+    "id": "review-boundary",
+    "policy": {
+      "schemaVersion": 1,
+      "version": "test-v1",
+      "mode": "replace",
+      "instructions": "Allow criticism.",
+      "filters": [
+        {
+          "id": "abuse",
+          "definition": "Targeted personal abuse.",
+          "criteria": {
+            "true": "An abusive attack.",
+            "false": "Good-faith disagreement."
+          }
+        },
+        {
+          "id": "spam",
+          "definition": "Unsolicited bulk advertising."
+        }
+      ]
+    },
+    "message": "A message 🌍 café",
+    "history": [
+      {
+        "role": "user",
+        "content": "Earlier context"
+      }
+    ],
+    "raw": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "abuse": {
+          "type": "noul",
+          "noul": 0.5
+        },
+        "spam": {
+          "type": "noul",
+          "noul": 0
+        }
+      },
+      "usage": {
+        "input_tokens": 50,
+        "output_tokens": 3
+      }
+    },
+    "expectedAction": "review",
+    "expectedMatchedRuleIds": [
+      "abuse"
+    ]
+  },
+  {
+    "id": "block-boundary",
+    "policy": {
+      "schemaVersion": 1,
+      "version": "test-v1",
+      "mode": "replace",
+      "instructions": "Allow criticism.",
+      "filters": [
+        {
+          "id": "abuse",
+          "definition": "Targeted personal abuse.",
+          "criteria": {
+            "true": "An abusive attack.",
+            "false": "Good-faith disagreement."
+          }
+        },
+        {
+          "id": "spam",
+          "definition": "Unsolicited bulk advertising."
+        }
+      ]
+    },
+    "message": "A message 🌍 café",
+    "history": [
+      {
+        "role": "user",
+        "content": "Earlier context"
+      }
+    ],
+    "raw": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "abuse": {
+          "type": "noul",
+          "noul": 0.9
+        },
+        "spam": {
+          "type": "noul",
+          "noul": 0.6
+        }
+      },
+      "usage": {
+        "input_tokens": 50,
+        "output_tokens": 3
+      }
+    },
+    "expectedAction": "block",
+    "expectedMatchedRuleIds": [
+      "abuse",
+      "spam"
+    ]
+  },
+  {
+    "id": "multi-block",
+    "policy": {
+      "schemaVersion": 1,
+      "version": "test-v1",
+      "mode": "replace",
+      "instructions": "Allow criticism.",
+      "filters": [
+        {
+          "id": "abuse",
+          "definition": "Targeted personal abuse.",
+          "criteria": {
+            "true": "An abusive attack.",
+            "false": "Good-faith disagreement."
+          }
+        },
+        {
+          "id": "spam",
+          "definition": "Unsolicited bulk advertising."
+        }
+      ]
+    },
+    "message": "A message 🌍 café",
+    "history": [
+      {
+        "role": "user",
+        "content": "Earlier context"
+      }
+    ],
+    "raw": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "abuse": {
+          "type": "noul",
+          "noul": 1
+        },
+        "spam": {
+          "type": "noul",
+          "noul": 1
+        }
+      },
+      "usage": {
+        "input_tokens": 50,
+        "output_tokens": 3
+      }
+    },
+    "expectedAction": "block",
+    "expectedMatchedRuleIds": [
+      "abuse",
+      "spam"
+    ]
+  }
+]

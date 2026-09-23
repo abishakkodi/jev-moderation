@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "version": "community-v1",
+  "mode": "replace",
+  "instructions": "Evaluate only the target message in context. Allow good-faith discussion, educational material, reporting, and non-endorsing quotation. Quoted abuse used to attack someone is still a violation. Do not penalize ordinary disagreement or profanity alone.",
+  "filters": [
+    {
+      "id": "harassment",
+      "definition": "Targeted abuse, degrading insults, or sustained intimidation of a person. Ordinary disagreement, criticism of ideas, and profanity alone are not violations.",
+      "review": 0.5,
+      "block": 0.9
+    },
+    {
+      "id": "hate",
+      "definition": "Attacks, dehumanization, or advocacy of exclusion or violence against people because of protected characteristics such as race, religion, nationality, gender, sexual orientation, or disability. Neutral reporting and counterspeech are not violations.",
+      "review": 0.5,
+      "block": 0.9
+    },
+    {
+      "id": "threats",
+      "definition": "Credible statements of intent, encouragement, or instructions to physically harm a person or group. Figurative frustration, fictional discussion, and reporting threats without endorsement are not violations.",
+      "review": 0.5,
+      "block": 0.9
+    },
+    {
+      "id": "explicit_sexual",
+      "definition": "Graphic sexual descriptions, explicit sexual solicitation, or sexual exploitation. Non-graphic health education, consent discussion, and abuse reporting are not violations.",
+      "review": 0.5,
+      "block": 0.9
+    },
+    {
+      "id": "self_harm_encouragement",
+      "definition": "Encouraging, glorifying, or instructing suicide or self-injury. Seeking help, expressing distress, recovery stories, and supportive responses are not violations.",
+      "review": 0.5,
+      "block": 0.9
+    },
+    {
+      "id": "scams",
+      "definition": "Deceptive attempts to obtain money, credentials, or sensitive information, including impersonation and fraudulent offers. Discussing or warning about scams is not a violation.",
+      "review": 0.5,
+      "block": 0.9
+    },
+    {
+      "id": "spam",
+      "definition": "Unsolicited promotional flooding, repetitive irrelevant advertising, or deceptive bulk solicitation. Relevant recommendations and a single legitimate on-topic link are not violations.",
+      "review": 0.5,
+      "block": 0.9
+    }
+  ]
+}

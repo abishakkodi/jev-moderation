@@ -1,0 +1,14 @@
+{
+  "name": "jev-moderation-workspace",
+  "private": true,
+  "workspaces": [
+    "packages/typescript"
+  ],
+  "scripts": {
+    "sync": "python3 scripts/sync_shared.py",
+    "build": "npm run sync && npm run build -w jev-moderation",
+    "test": "npm run build && npm test -w jev-moderation",
+    "test:parity": ".venv/bin/python scripts/check_parity.py",
+    "test:examples": "vitest run examples/custom-filter.test.ts"
+  }
+}

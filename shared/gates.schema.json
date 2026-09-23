@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "minAccuracy": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "maxReviewRate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "minPrecision": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minRecall": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    }
+  }
+}

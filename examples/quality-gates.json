@@ -1,0 +1,10 @@
+{
+  "minAccuracy": 0.8,
+  "maxReviewRate": 0.25,
+  "filters": {
+    "harassment": {
+      "minPrecision": 0.8,
+      "minRecall": 0.8
+    }
+  }
+}
