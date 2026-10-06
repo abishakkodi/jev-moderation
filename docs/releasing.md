@@ -1,14 +1,16 @@
 # Releasing the SDKs
 
 The source repository is public. Registry packages are **not yet published**.
-The first release remains blocked on a license choice and registry-owner setup.
+The repository and both SDK packages use the MIT license.
+Registry-owner setup remains required before the first release.
 Registry checks on 2026-09-23 returned 404 for `jev-moderation` on npm and PyPI;
 this does not reserve the names or guarantee that the registries will accept them.
 
 ## One-time account setup
 
-1. Choose the repository license. Set the same SPDX license string in both package
-   manifests, add `LICENSE` at the root, then run `python3 scripts/sync_shared.py`.
+1. MIT licensing is configured in both package manifests. The root `LICENSE` is
+   copied into both distributions by `python3 scripts/sync_shared.py`;
+   `python3 scripts/sync_shared.py --check` verifies that the copies match.
 2. Log in to your npm account locally (`npm login`). For the initial package,
    publish the tested tarball manually if package settings are not yet available:
    `npm publish dist/jev-moderation-0.1.0.tgz --access public --ignore-scripts`.

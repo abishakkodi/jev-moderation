@@ -11,5 +11,6 @@
     "test:parity": ".venv/bin/python scripts/check_parity.py",
     "test:examples": "vitest run examples/custom-filter.test.ts",
     "test:install": "python3 scripts/smoke_install.py --artifacts dist"
-  }
+  },
+  "license": "MIT"
 }

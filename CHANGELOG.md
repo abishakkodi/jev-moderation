@@ -7,6 +7,7 @@
 - Evaluation helpers, mock clients, CLI tools, reports, and quality gates.
 - Shared schemas and conformance tests across both languages.
 - Installable npm tarball, Python wheel and source distribution.
+- MIT license included in the repository and both package distributions.
 - Release automation, isolated consumer checks, and opt-in live evaluation workflow.
 
 This is an early release. Default thresholds are uncalibrated. Live model accuracy

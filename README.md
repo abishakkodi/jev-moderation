@@ -135,3 +135,7 @@ publishing, version tags, clean consumer installation checks, and opt-in live
 model evaluations. The tag workflow tests the exact distribution files before
 publishing, then verifies imports from npm and PyPI. The separate manual live
 evaluation workflow requires a `TYPESAFE_API_KEY` repository secret.
+
+## License
+
+[MIT](LICENSE).

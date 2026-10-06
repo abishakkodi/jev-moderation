@@ -5,6 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "jev-moderation"
 version = "0.1.0"
+license = "MIT"
+license-files = ["LICENSE"]
 description = "Configurable Jev message moderation and evaluation tools"
 readme = "README.md"
 requires-python = ">=3.10"
